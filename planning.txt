@@ -1,0 +1,79 @@
+Project: OJT Progress Tracker
+
+----------------------------------------
+UI AND WIREFRAME PLANNING
+----------------------------------------
+
+1. Header
+- Displays application name: "OJT Progress Tracker"
+- Shows short purpose of the app
+- Displays progress summary (Total, Completed, Pending tasks)
+
+----------------------------------------
+
+2. Input Form
+- Input field for Task Title
+- Dropdown for Category (Learning, Project, Debugging)
+- Date picker for selecting task date
+- "Add Task" button to submit the form
+
+----------------------------------------
+
+3. Task List
+- Displays all tasks in list or card format
+- Each task includes:
+  - Task Title
+  - Category
+  - Date
+  - Status (Completed / Pending)
+- Actions available:
+  - Mark task as complete
+  - Delete task
+
+----------------------------------------
+
+4. Summary Panel
+- Displays task statistics:
+  - Total number of tasks
+  - Number of completed tasks
+  - Number of pending tasks
+
+----------------------------------------
+
+5. Notes Area (Optional Enhancement)
+- Section to store:
+  - Daily learning notes
+  - Errors faced
+  - Debugging notes
+
+----------------------------------------
+
+6. Responsive Layout
+- Application should work properly on:
+  - Laptop screens
+  - Mobile screens
+- Layout adjusts automatically based on screen size
+
+----------------------------------------
+
+DATA MODEL (Task Structure)
+
+Each task will have:
+- id (unique identifier)
+- title (string)
+- category (string)
+- date (string)
+- completed (boolean)
+
+----------------------------------------
+
+APPLICATION FLOW
+
+User enters task →
+Clicks "Add Task" →
+Task is stored in array →
+Saved to localStorage →
+Displayed in UI →
+Summary gets updated
+
+----------------------------------------
