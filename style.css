@@ -123,3 +123,13 @@ header p {
   background: red;
   color: white;
 }
+.controls {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+
+.controls select {
+  padding: 8px;
+  border-radius: 5px;
+}

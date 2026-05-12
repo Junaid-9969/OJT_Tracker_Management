@@ -46,6 +46,19 @@
     <button type="submit">Add Task</button>
   </form>
 
+  <div class="controls">
+  <select id="filter">
+    <option value="all">All Tasks</option>
+    <option value="completed">Completed</option>
+    <option value="pending">Pending</option>
+  </select>
+
+  <select id="sort">
+    <option value="none">Sort</option>
+    <option value="date">By Date</option>
+  </select>
+</div>
+
   <!-- TASK LIST -->
   <section id="taskList" class="task-list"></section>
 

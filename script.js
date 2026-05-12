@@ -26,9 +26,24 @@ form.addEventListener("submit", function (e) {
 
 // Render
 function renderTasks() {
+  const filter = document.getElementById("filter").value;
+  const sort = document.getElementById("sort").value;
+
+  let filteredTasks = [...tasks];
+
+  // FILTER
+  if (filter !== "all") {
+    filteredTasks = filteredTasks.filter(t => t.status === filter);
+  }
+
+  // SORT
+  if (sort === "date") {
+    filteredTasks.sort((a, b) => new Date(a.date) - new Date(b.date));
+  }
+
   taskList.innerHTML = "";
 
-  tasks.forEach(task => {
+  filteredTasks.forEach(task => {
     const div = document.createElement("div");
     div.className = "task";
 
@@ -39,6 +54,7 @@ function renderTasks() {
       </div>
 
       <div class="actions">
+        <button onclick="editTask(${task.id})">✏️</button>
         <button class="complete" onclick="toggleTask(${task.id})">✔</button>
         <button class="delete" onclick="deleteTask(${task.id})">✖</button>
       </div>
@@ -81,6 +97,17 @@ function saveAndRender() {
   localStorage.setItem("tasks", JSON.stringify(tasks));
   renderTasks();
 }
+function editTask(id) {
+  const task = tasks.find(t => t.id === id);
+
+  const newTitle = prompt("Edit Task Title", task.title);
+  if (!newTitle) return;
+
+  task.title = newTitle;
+  saveAndRender();
+}
 
 // Init
 renderTasks();
+document.getElementById("filter").addEventListener("change", renderTasks);
+document.getElementById("sort").addEventListener("change", renderTasks);
