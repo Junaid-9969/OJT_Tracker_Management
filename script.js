@@ -10,10 +10,12 @@ form.addEventListener("submit", function (e) {
   const title = document.getElementById("title").value;
   const category = document.getElementById("category").value;
   const date = document.getElementById("date").value;
-
+  const description = document.getElementById("description").value;
+  
   const newTask = {
   id: Date.now(),
   title,
+  description,
   category,
   date,
   status: "pending"
@@ -46,19 +48,20 @@ function renderTasks() {
   filteredTasks.forEach(task => {
     const div = document.createElement("div");
     div.className = "task";
-
     div.innerHTML = `
-      <div class="task-info ${task.status === "completed" ? "completed" : ""}">
-        <strong>${task.title}</strong>
-        <small>${task.category} | ${task.date}</small>
-      </div>
 
-      <div class="actions">
-        <button onclick="editTask(${task.id})">✏️</button>
-        <button class="complete" onclick="toggleTask(${task.id})">✔</button>
-        <button class="delete" onclick="deleteTask(${task.id})">✖</button>
-      </div>
-    `;
+   <div class="task-info ${task.status === "completed" ? "completed" : ""}">
+    <strong>${task.title}</strong>
+    <small>${task.description || ""}</small>
+    <small>${task.category} | ${task.date}</small>
+   </div>
+
+   <div class="actions">
+    <button onclick="editTask(${task.id})">✏️</button>
+    <button class="complete" onclick="toggleTask(${task.id})">✔</button>
+    <button class="delete" onclick="deleteTask(${task.id})">✖</button>
+   </div>
+`;
 
     taskList.appendChild(div);
   });
@@ -77,8 +80,11 @@ function toggleTask(id) {
 }
 // Delete
 function deleteTask(id) {
+  if (!confirm("Are you sure you want to delete this task?")) return;
+
   tasks = tasks.filter(t => t.id !== id);
   saveAndRender();
+  showToast("Task deleted");
 }
 
 // Summary
@@ -100,13 +106,33 @@ function saveAndRender() {
 function editTask(id) {
   const task = tasks.find(t => t.id === id);
 
-  const newTitle = prompt("Edit Task Title", task.title);
+  const newTitle = prompt("Edit Title", task.title);
+  const newDesc = prompt("Edit Description", task.description);
+
   if (!newTitle) return;
 
   task.title = newTitle;
-  saveAndRender();
-}
+  task.description = newDesc;
 
+  saveAndRender();
+  showToast("Task updated");
+}
+ function showToast(message) {
+  const toast = document.createElement("div");
+  toast.className = "toast";
+  toast.textContent = message;
+
+  document.body.appendChild(toast);
+
+  setTimeout(() => {
+    toast.classList.add("show");
+  }, 100);
+
+  setTimeout(() => {
+    toast.remove();
+  }, 2000);
+}
+showToast("Task added");
 // Init
 renderTasks();
 document.getElementById("filter").addEventListener("change", renderTasks);
