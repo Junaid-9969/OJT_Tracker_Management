@@ -1,0 +1,94 @@
+OJT PROGRESS TRACKER – WIREFRAME STRUCTURE
+
+---
+
+[ SIDEBAR – LEFT PANEL ]
+
+---
+
+| OJT LOGO / TITLE |
+| ---------------- |
+| Dashboard        |
+| Tasks            |
+| Dark Mode Toggle |
+
+---
+
+---
+
+[ MAIN CONTENT AREA ]
+
+---
+
+1. HEADER SECTION
+
+---
+
+|  OJT Progress Tracker                          |
+|  Track your daily learning and tasks           |
+--------------------------------------------------
+
+---
+
+2. DASHBOARD SECTION (SUMMARY CARDS)
+
+---
+
+|  Total Tasks   |  Completed   |  Pending        |
+|      0         |      0       |      0          |
+---------------------------------------------------
+
+---
+
+3. TASK INPUT TOOLBAR (ADD TASK)
+
+---
+
+## |  Task Name | Date | Category | Description | +Add |
+
+---
+
+4. FILTER & SORT CONTROLS
+
+---
+
+|  Filter: All / Completed / Pending             |
+|  Sort: Newest / Oldest / A-Z                   |
+--------------------------------------------------
+
+---
+
+5. TASK LIST SECTION
+
+---
+
+|  [Task Card]                                   |
+|  Title                                         |
+|  Description                                   |
+|  Category | Date                               |
+|  [Edit] [Complete] [Delete]                    |
+--------------------------------------------------
+
+|  [Task Card]                                   |
+|  Title                                         |
+|  Description                                   |
+|  Category | Date                               |
+|  [Edit] [Complete] [Delete]                    |
+--------------------------------------------------
+
+---
+
+6. USER INTERACTIONS
+
+---
+
+* User can add a task using toolbar
+* User can edit/delete/mark complete
+* Tasks update dynamically
+* Dashboard updates automatically
+* Filter and sorting applied instantly
+* Dark mode toggles UI theme
+
+---
+
+END OF WIREFRAME
