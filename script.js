@@ -3,65 +3,73 @@ const taskList = document.getElementById("taskList");
 
 let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
 
-// Add task
+/* ================= ADD TASK ================= */
 form.addEventListener("submit", function (e) {
   e.preventDefault();
 
   const title = document.getElementById("title").value;
+  const description = document.getElementById("description").value;
   const category = document.getElementById("category").value;
   const date = document.getElementById("date").value;
-  const description = document.getElementById("description").value;
-  
-  const newTask = {
-  id: Date.now(),
-  title,
-  description,
-  category,
-  date,
-  status: "pending"
-};
 
-  tasks.push(newTask);
+  tasks.push({
+    id: Date.now(),
+    title,
+    description,
+    category,
+    date,
+    status: "pending"
+  });
+
   saveAndRender();
   form.reset();
 });
 
-// Render
+/* ================= RENDER TASKS ================= */
 function renderTasks() {
-  const filter = document.getElementById("filter").value;
-  const sort = document.getElementById("sort").value;
+  const filterEl = document.getElementById("filter");
+  const sortEl = document.getElementById("sort");
 
-  let filteredTasks = [...tasks];
+  const filter = filterEl ? filterEl.value : "all";
+  const sort = sortEl ? sortEl.value : "newest";
 
-  // FILTER
-  if (filter !== "all") {
-    filteredTasks = filteredTasks.filter(t => t.status === filter);
+  let filtered = [...tasks];
+
+  /* FILTER */
+  if (filter === "completed") {
+    filtered = filtered.filter(t => t.status === "completed");
+  } else if (filter === "pending") {
+    filtered = filtered.filter(t => t.status === "pending");
   }
 
-  // SORT
-  if (sort === "date") {
-    filteredTasks.sort((a, b) => new Date(a.date) - new Date(b.date));
+  /* SORT BY DATE */
+  if (sort === "newest") {
+    filtered.sort((a, b) => new Date(b.date) - new Date(a.date));
+  } else if (sort === "oldest") {
+    filtered.sort((a, b) => new Date(a.date) - new Date(b.date));
+  } else if (sort === "az") {
+    filtered.sort((a, b) => a.title.localeCompare(b.title));
   }
 
   taskList.innerHTML = "";
 
-  filteredTasks.forEach(task => {
+  filtered.forEach(task => {
     const div = document.createElement("div");
-    div.className = "task";
+    div.className = `task ${task.status === "completed" ? "completed" : ""}`;
+
     div.innerHTML = `
+      <div class="task-info">
+        <strong>${task.title}</strong>
+        <small>${task.description || ""}</small>
+        <small>${task.category} | ${task.date}</small>
+      </div>
 
-   <div class="task-info ${task.status === "completed" ? "completed" : ""}">
-    <strong>${task.title}</strong>
-    <small>${task.description || ""}</small>
-    <small>${task.category} | ${task.date}</small>
-   </div>
-
-   <div class="actions">
-    <button onclick="editTask(${task.id})">✏️</button>
-    <button class="complete" onclick="toggleTask(${task.id})">✔</button>
-    <button class="delete" onclick="deleteTask(${task.id})">✖</button>
-   </div>
-`;
+      <div class="actions">
+        <button onclick="editTask(${task.id})"><i class="fas fa-edit"></i></button>
+        <button onclick="toggleTask(${task.id})"><i class="fas fa-check"></i></button>
+        <button onclick="deleteTask(${task.id})"><i class="fas fa-trash"></i></button>
+      </div>
+    `;
 
     taskList.appendChild(div);
   });
@@ -69,40 +77,26 @@ function renderTasks() {
   updateSummary();
 }
 
-// Toggle
+/* ================= TOGGLE STATUS ================= */
 function toggleTask(id) {
   tasks = tasks.map(task =>
     task.id === id
       ? { ...task, status: task.status === "pending" ? "completed" : "pending" }
       : task
   );
+
   saveAndRender();
 }
-// Delete
+
+/* ================= DELETE ================= */
 function deleteTask(id) {
-  if (!confirm("Are you sure you want to delete this task?")) return;
+  if (!confirm("Delete this task?")) return;
 
-  tasks = tasks.filter(t => t.id !== id);
+  tasks = tasks.filter(task => task.id !== id);
   saveAndRender();
-  showToast("Task deleted");
 }
 
-// Summary
-function updateSummary() {
-  const total = tasks.length;
-  const completed = tasks.filter(t => t.status === "completed").length;
-  const pending = total - completed;
-
-  document.getElementById("total").textContent = total;
-  document.getElementById("completed").textContent = completed;
-  document.getElementById("pending").textContent = pending;
-}
-
-// Save + Render
-function saveAndRender() {
-  localStorage.setItem("tasks", JSON.stringify(tasks));
-  renderTasks();
-}
+/* ================= EDIT ================= */
 function editTask(id) {
   const task = tasks.find(t => t.id === id);
 
@@ -115,25 +109,45 @@ function editTask(id) {
   task.description = newDesc;
 
   saveAndRender();
-  showToast("Task updated");
 }
- function showToast(message) {
-  const toast = document.createElement("div");
-  toast.className = "toast";
-  toast.textContent = message;
 
-  document.body.appendChild(toast);
-
-  setTimeout(() => {
-    toast.classList.add("show");
-  }, 100);
-
-  setTimeout(() => {
-    toast.remove();
-  }, 2000);
+/* ================= SUMMARY ================= */
+function updateSummary() {
+  document.getElementById("total").textContent = tasks.length;
+  document.getElementById("completed").textContent =
+    tasks.filter(t => t.status === "completed").length;
+  document.getElementById("pending").textContent =
+    tasks.filter(t => t.status === "pending").length;
 }
-showToast("Task added");
-// Init
+
+/* ================= SAVE ================= */
+function saveAndRender() {
+  localStorage.setItem("tasks", JSON.stringify(tasks));
+  renderTasks();
+}
+
+/* ================= DARK MODE ================= */
+function toggleDarkMode() {
+  document.body.classList.toggle("dark");
+}
+
+/* ================= SIDEBAR ================= */
+function showDashboard() {
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function scrollToTasks() {
+  document.getElementById("taskList").scrollIntoView({
+    behavior: "smooth"
+  });
+}
+
+/* ================= EVENT LISTENERS ================= */
+const filterEl = document.getElementById("filter");
+const sortEl = document.getElementById("sort");
+
+if (filterEl) filterEl.addEventListener("change", renderTasks);
+if (sortEl) sortEl.addEventListener("change", renderTasks);
+
+/* ================= INIT ================= */
 renderTasks();
-document.getElementById("filter").addEventListener("change", renderTasks);
-document.getElementById("sort").addEventListener("change", renderTasks);

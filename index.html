@@ -3,68 +3,103 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>OJT Tracker</title>
-  <link rel="stylesheet" href="style.css" />
+  <title>OJT Progress Tracker</title>
+
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-<div class="app">
+<div class="layout">
 
-  <!-- HEADER -->
-  <header>
-    <h1>OJT Progress Tracker</h1>
-    <p>Track your daily learning & tasks</p>
-  </header>
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <h2>OJT</h2>
+    <ul>
+      <li onclick="showDashboard()"><i class="fas fa-home"></i> Dashboard</li>
+      <li onclick="scrollToTasks()"><i class="fas fa-tasks"></i> Tasks</li>
+      <li onclick="toggleDarkMode()"><i class="fas fa-moon"></i> Dark Mode</li>
+    </ul>
+  </aside>
 
-  <!-- DASHBOARD -->
-  <section class="dashboard">
-    <div class="card">
-      <h3>Total</h3>
-      <p id="total">0</p>
+  <!-- MAIN -->
+  <main class="main">
+    <div class="app">
+
+      <!-- HEADER -->
+      <header>
+        <h1>OJT Progress Tracker</h1>
+        <p>Track your daily learning and tasks efficiently</p>
+      </header>
+
+      <!-- DASHBOARD -->
+      <section class="dashboard">
+        <div class="card">
+          <h3>Total</h3>
+          <p id="total">0</p>
+        </div>
+
+        <div class="card">
+          <h3>Completed</h3>
+          <p id="completed">0</p>
+        </div>
+
+        <div class="card">
+          <h3>Pending</h3>
+          <p id="pending">0</p>
+        </div>
+      </section>
+
+      <!-- 🔥 TOOLBAR (ADD TASK) -->
+      <form id="taskForm" class="toolbar">
+
+        <input type="text" id="title" placeholder="Task..." required>
+
+        <input type="date" id="date" required>
+
+        <select id="category">
+          <option>Learning</option>
+          <option>Project</option>
+          <option>Debugging</option>
+        </select>
+
+        <input type="text" id="description" class="desc" placeholder="Description...">
+
+        <button type="submit">+ Add</button>
+
+      </form>
+
+      <!-- 🔥 FILTER + SORT -->
+      <div class="controls">
+
+        <select id="filter">
+          <option value="all">All Tasks</option>
+          <option value="completed">Completed</option>
+          <option value="pending">Pending</option>
+        </select>
+
+        <select id="sort">
+          <option value="newest">Sort by Newest Date</option>
+          <option value="oldest">Sort by Oldest Date</option>
+          <option value="az">Sort A-Z</option>
+        </select>
+
+      </div>
+
+      <!-- TASK LIST -->
+      <section id="taskList" class="task-list"></section>
+
     </div>
-    <div class="card">
-      <h3>Completed</h3>
-      <p id="completed">0</p>
-    </div>
-    <div class="card">
-      <h3>Pending</h3>
-      <p id="pending">0</p>
-    </div>
-  </section>
+  </main>
 
-  <!-- FORM -->
-  <form id="taskForm" class="form">
-    <input type="text" id="title" placeholder="Enter task..." required />
-    <textarea id="description" placeholder="Enter short description..."></textarea>
-    
-    <select id="category">
-      <option>Learning</option>
-      <option>Project</option>
-      <option>Debugging</option>
-    </select>
-
-    <input type="date" id="date" required />
-    <button type="submit">Add Task</button>
-  </form>
-
-  <div class="controls">
-  <select id="filter">
-    <option value="all">All Tasks</option>
-    <option value="completed">Completed</option>
-    <option value="pending">Pending</option>
-  </select>
-
-  <select id="sort">
-    <option value="none">Sort</option>
-    <option value="date">By Date</option>
-  </select>
 </div>
 
-  <!-- TASK LIST -->
-  <section id="taskList" class="task-list"></section>
-
-</div>
-
+<!-- JS -->
 <script src="script.js"></script>
+
 </body>
 </html>
