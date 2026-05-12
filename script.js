@@ -1,55 +1,74 @@
 const form = document.getElementById("taskForm");
 const taskList = document.getElementById("taskList");
 
-let tasks = loadTasks();
+let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
 
-// ---------- LOAD ----------
-function loadTasks() {
-  const data = localStorage.getItem("tasks");
-  return data ? JSON.parse(data) : [];
-}
+// Add task
+form.addEventListener("submit", function (e) {
+  e.preventDefault();
 
-// ---------- SAVE ----------
-function saveTasks() {
-  localStorage.setItem("tasks", JSON.stringify(tasks));
-}
+  const title = document.getElementById("title").value;
+  const category = document.getElementById("category").value;
+  const date = document.getElementById("date").value;
 
-// ---------- ADD TASK ----------
-function addTask(title, category, date) {
   const newTask = {
-    id: Date.now(),
-    title,
-    category,
-    date,
-    completed: false
-  };
+  id: Date.now(),
+  title,
+  category,
+  date,
+  status: "pending"
+};
 
   tasks.push(newTask);
-  saveTasks();
-  renderTasks();
+  saveAndRender();
+  form.reset();
+});
+
+// Render
+function renderTasks() {
+  taskList.innerHTML = "";
+
+  tasks.forEach(task => {
+    const div = document.createElement("div");
+    div.className = "task";
+
+    div.innerHTML = `
+      <div class="task-info ${task.status === "completed" ? "completed" : ""}">
+        <strong>${task.title}</strong>
+        <small>${task.category} | ${task.date}</small>
+      </div>
+
+      <div class="actions">
+        <button class="complete" onclick="toggleTask(${task.id})">✔</button>
+        <button class="delete" onclick="deleteTask(${task.id})">✖</button>
+      </div>
+    `;
+
+    taskList.appendChild(div);
+  });
+
+  updateSummary();
 }
 
-// ---------- DELETE ----------
-function deleteTask(id) {
-  tasks = tasks.filter(task => task.id !== id);
-  saveTasks();
-  renderTasks();
-}
-
-// ---------- TOGGLE ----------
+// Toggle
 function toggleTask(id) {
   tasks = tasks.map(task =>
-    task.id === id ? { ...task, completed: !task.completed } : task
+    task.id === id
+      ? { ...task, status: task.status === "pending" ? "completed" : "pending" }
+      : task
   );
-
-  saveTasks();
-  renderTasks();
+  saveAndRender();
+}
+// Delete
+function deleteTask(id) {
+  tasks = tasks.filter(t => t.id !== id);
+  saveAndRender();
 }
 
-// ---------- SUMMARY ----------
+// Summary
 function updateSummary() {
   const total = tasks.length;
-  const completed = tasks.filter(t => t.completed).length;
+  const completed = tasks.filter(t => t.status === "completed").length;
   const pending = total - completed;
 
   document.getElementById("total").textContent = total;
@@ -57,45 +76,11 @@ function updateSummary() {
   document.getElementById("pending").textContent = pending;
 }
 
-// ---------- RENDER ----------
-function renderTasks() {
-  taskList.innerHTML = "";
-
-  tasks.forEach(task => {
-    const li = document.createElement("li");
-    li.className = "task-item";
-
-    li.innerHTML = `
-      <div class="task-info ${task.completed ? "completed" : ""}">
-        <strong>${task.title}</strong>
-        <small>${task.category} | ${task.date}</small>
-      </div>
-
-      <div class="actions">
-        <button class="complete-btn" onclick="toggleTask(${task.id})">✔</button>
-        <button class="delete-btn" onclick="deleteTask(${task.id})">✖</button>
-      </div>
-    `;
-
-    taskList.appendChild(li);
-  });
-
-  updateSummary();
+// Save + Render
+function saveAndRender() {
+  localStorage.setItem("tasks", JSON.stringify(tasks));
+  renderTasks();
 }
 
-// ---------- FORM EVENT ----------
-form.addEventListener("submit", function (e) {
-  e.preventDefault();
-
-  const title = document.getElementById("title").value.trim();
-  const category = document.getElementById("category").value;
-  const date = document.getElementById("date").value;
-
-  if (!title || !date) return;
-
-  addTask(title, category, date);
-  form.reset();
-});
-
-// ---------- INIT ----------
+// Init
 renderTasks();

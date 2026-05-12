@@ -1,17 +1,18 @@
 * {
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 body {
   font-family: "Segoe UI", sans-serif;
-  background: #f5f7fa;
-  margin: 0;
-  padding: 20px;
+  background: #eef2f7;
 }
 
-.container {
-  max-width: 800px;
+.app {
+  max-width: 900px;
   margin: auto;
+  padding: 20px;
 }
 
 header {
@@ -19,44 +20,80 @@ header {
   margin-bottom: 20px;
 }
 
-.summary {
+header h1 {
+  color: #333;
+}
+
+header p {
+  color: #777;
+}
+
+/* Dashboard */
+.dashboard {
   display: flex;
-  justify-content: space-around;
-  margin-top: 10px;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.card {
+  flex: 1;
+  background: white;
+  padding: 15px;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+}
+
+.card h3 {
+  color: #555;
+}
+
+.card p {
+  font-size: 22px;
   font-weight: bold;
 }
 
-.task-form {
+/* Form */
+.form {
   display: flex;
   gap: 10px;
   margin-bottom: 20px;
 }
 
-.task-form input,
-.task-form select,
-.task-form button {
+.form input,
+.form select,
+.form button {
   padding: 10px;
-  font-size: 14px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
 }
 
-.task-form button {
+.form button {
   background: #007bff;
   color: white;
   border: none;
+  cursor: pointer;
 }
 
+.form button:hover {
+  background: #0056b3;
+}
+
+/* Tasks */
 .task-list {
-  list-style: none;
-  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
-.task-item {
+.task {
   background: white;
   padding: 12px;
-  margin-bottom: 10px;
+  border-radius: 8px;
   display: flex;
   justify-content: space-between;
-  border-radius: 5px;
+  align-items: center;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
 .task-info {
@@ -71,17 +108,18 @@ header {
 
 .actions button {
   margin-left: 5px;
-  border: none;
   padding: 5px 8px;
+  border: none;
   cursor: pointer;
+  border-radius: 5px;
 }
 
-.complete-btn {
+.complete {
   background: green;
   color: white;
 }
 
-.delete-btn {
+.delete {
   background: red;
   color: white;
 }

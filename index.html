@@ -3,40 +3,54 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>OJT Progress Tracker</title>
+  <title>OJT Tracker</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
-  <div class="container">
-    <header>
-      <h1>OJT Progress Tracker</h1>
-      <div class="summary">
-        <div>Total: <span id="total">0</span></div>
-        <div>Completed: <span id="completed">0</span></div>
-        <div>Pending: <span id="pending">0</span></div>
-      </div>
-    </header>
+<div class="app">
 
-    <!-- Form -->
-    <form id="taskForm" class="task-form">
-      <input type="text" id="title" placeholder="Enter task..." required />
-      
-      <select id="category">
-        <option value="Learning">Learning</option>
-        <option value="Project">Project</option>
-        <option value="Debugging">Debugging</option>
-      </select>
+  <!-- HEADER -->
+  <header>
+    <h1>OJT Progress Tracker</h1>
+    <p>Track your daily learning & tasks</p>
+  </header>
 
-      <input type="date" id="date" required />
-      <button type="submit">Add Task</button>
-    </form>
+  <!-- DASHBOARD -->
+  <section class="dashboard">
+    <div class="card">
+      <h3>Total</h3>
+      <p id="total">0</p>
+    </div>
+    <div class="card">
+      <h3>Completed</h3>
+      <p id="completed">0</p>
+    </div>
+    <div class="card">
+      <h3>Pending</h3>
+      <p id="pending">0</p>
+    </div>
+  </section>
 
-    <!-- Task List -->
-    <ul id="taskList" class="task-list"></ul>
+  <!-- FORM -->
+  <form id="taskForm" class="form">
+    <input type="text" id="title" placeholder="Enter task..." required />
+    
+    <select id="category">
+      <option>Learning</option>
+      <option>Project</option>
+      <option>Debugging</option>
+    </select>
 
-  </div>
+    <input type="date" id="date" required />
+    <button type="submit">Add Task</button>
+  </form>
 
-  <script src="script.js"></script>
+  <!-- TASK LIST -->
+  <section id="taskList" class="task-list"></section>
+
+</div>
+
+<script src="script.js"></script>
 </body>
 </html>
